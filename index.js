@@ -73,7 +73,7 @@ function draw() {
     ctx.stroke();
   }
 
-  if(Object.keys(touches).length > 0 || (winnerTime != undefined && now - winnerTime < 5000)) {
+  if(Object.keys(touches).length > 0 || (winnerTime != undefined && now - winnerTime < 2000)) {
     requestAnimationFrame(draw);
   }
 }
