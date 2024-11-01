@@ -81,7 +81,7 @@ function draw() {
 // Handle selecton
 function doSelection() {
   let touchIds = Object.keys(touches);
-  let winnerIndex = Math.floor(Math.random() * touchIds.length);
+  let winnerIndex = Math.floor(Math.random() * (1.0 * touchIds.length));
   let winnerTouch = touches[touchIds[winnerIndex]];
   winnerPosition = [winnerTouch.x, winnerTouch.y];
   winnerColor = winnerTouch.color;
