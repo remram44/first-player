@@ -86,6 +86,7 @@ function doSelection() {
   winnerPosition = [winnerTouch.x, winnerTouch.y];
   winnerColor = winnerTouch.color;
   winnerTime = getTime();
+  touches = {};
 }
 
 let selectTimer = undefined;
@@ -102,6 +103,9 @@ function startTimer() {
 // Handle touch events
 function handleTouch(e) {
   e.preventDefault();
+  if(winnerColor != undefined) {
+    return;
+  }
   for(let i = 0; i < e.changedTouches.length; ++i) {
     const touch = e.changedTouches[i];
     if(!(touch.identifier in touches)) {
