@@ -16,8 +16,8 @@ const colors = [
   '#6a4c93',
 ];
 
-const touches = {};
-const usedColors = [];
+let touches = {};
+let usedColors = [];
 for(let i = 0; i < colors.length; ++i) {
   usedColors.push(false);
 }
@@ -39,8 +39,6 @@ function releaseColor(i) {
 let winnerPosition = undefined;
 let winnerColor = undefined;
 let winnerTime = undefined;
-
-let animating = false;
 
 const canvas = document.getElementById('canvas');
 const root = document.getElementById('root');
@@ -75,7 +73,7 @@ function draw() {
     ctx.stroke();
   }
 
-  if(animating) {
+  if(Object.keys(touches).length > 0 || (winnerTime != undefined && now - winnerTime < 5000)) {
     requestAnimationFrame(draw);
   }
 }
@@ -119,24 +117,21 @@ function handleTouch(e) {
       touches[touch.identifier].y = touch.clientY;
     }
   }
-  if(!animating) {
-    animating = true;
-    draw();
-  }
+  draw();
 }
 canvas.addEventListener('touchstart', handleTouch);
 canvas.addEventListener('touchmove', handleTouch);
 function handleTouchEnd(e) {
   e.preventDefault();
+  if(winnerColor != undefined) {
+    return;
+  }
   for(let i = 0; i < e.changedTouches.length; ++i) {
     const touch = e.changedTouches[i];
     releaseColor(touches[touch.identifier].color);
     delete touches[touch.identifier];
   }
   startTimer();
-  if(Object.keys(touches).length === 0) {
-    animating = false;
-  }
 }
 canvas.addEventListener('touchend', handleTouchEnd);
 canvas.addEventListener('touchcancel', handleTouchEnd);
